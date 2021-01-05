@@ -78,7 +78,7 @@ int sad[8][8] = {
 
 float vol = 0.0;
 uint16_t maxVol = 0;
-const uint16_t samples = 1280;
+const uint16_t samples = 2560;
 
 uint16_t color[4] = {};
 
@@ -114,14 +114,16 @@ void loop() {
     maxVol = max(micline, maxVol); //Get max Value of Samples
   }
   vol = (maxVol + vol) / 2.0;
+
+  //add somekind of a timer to stop changing to the smile to early
   
   if(vol <= 1400) {
     drawImage(smile);
-  } else if(vol > 1400 && vol <= 1950) {
+  } else if(vol > 1400 && vol <= 2000) {
     drawImage(openMouthSmall);
-  } else if(vol > 1950 && vol <= 2510) {
+  } else if(vol > 2000 && vol <= 2600) {
     drawImage(openMouthMedium);
-  } else if(vol > 2510) {
+  } else if(vol > 2600) {
     drawImage(openMouthBig);
   }
 }
