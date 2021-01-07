@@ -80,6 +80,10 @@ float vol = 0.0;
 uint16_t maxVol = 0;
 const uint16_t samples = 2560;
 
+bool didSpeak = false;
+unsigned int mouthClosedTimer = 0;
+const uint16_t timeMouthClosed = 1000;
+
 uint16_t color[4] = {};
 
 void drawImage(int image[][8]) {
@@ -89,6 +93,12 @@ void drawImage(int image[][8]) {
     }
   }
   matrix.show();
+}
+
+void setMouth(int mouth[][8]) {
+  drawImage(mouth);
+  didSpeak = true;
+  mouthClosedTimer = millis() + timeMouthClosed;
 }
 
 void setup() {
@@ -115,15 +125,19 @@ void loop() {
   }
   vol = (maxVol + vol) / 2.0;
 
-  //add somekind of a timer to stop changing to the smile to early
-  
-  if(vol <= 1400) {
+  if (didSpeak && millis() > mouthClosedTimer) {
+    didSpeak = false;
+  }
+
+  if (vol <= 1400 && !didSpeak) {
     drawImage(smile);
-  } else if(vol > 1400 && vol <= 2000) {
-    drawImage(openMouthSmall);
-  } else if(vol > 2000 && vol <= 2600) {
-    drawImage(openMouthMedium);
-  } else if(vol > 2600) {
-    drawImage(openMouthBig);
+  } else if (vol <= 1400 && didSpeak) {
+    drawImage(mouthClosed);
+  } else if (vol > 1400 && vol <= 2000) {
+    setMouth(openMouthSmall);
+  } else if (vol > 2000 && vol <= 2600) {
+    setMouth(openMouthMedium);
+  } else if (vol > 2600) {
+    setMouth(openMouthBig);
   }
 }
