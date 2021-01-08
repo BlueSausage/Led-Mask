@@ -93,6 +93,17 @@ int sad[8][8] = {
   {0, 0, 0, 0, 0, 0, 0, 0}
 };
 
+int test[8][8] {
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 2, 2, 0, 0, 2, 2, 0},
+  {0, 2, 2, 0, 0, 2, 2, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 2, 0, 0, 0, 0, 2, 0},
+  {0, 0, 2, 0, 0, 2, 0, 0},
+  {0, 0, 0, 2, 2, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0}
+};
+
 const uint16_t samples = 2560;
 float vol = 0.0;
 uint16_t maxVol = 0;
@@ -113,13 +124,13 @@ void drawImage(int image[][8]) {
     }
   }
   matrix.show();
+  delay(10);
 }
 
 void setMouth(int mouth[][8]) {
   drawImage(mouth);
   didSpeak = true;
   mouthClosedTimer = millis() + timeMouthClosed;
-  delay(10);
 }
 
 void setup() {
@@ -141,7 +152,7 @@ void setup() {
 void loop() {
   /* ToDo:
    *  - Add sound visualization
-   *  - Add pictures (smiley, etc.)
+   *  - Integration of mobile app
    *  - Optimize transition between faces
    */
   if (SerialBT.available()) {
@@ -159,7 +170,7 @@ void loop() {
     delay(2000);
   }
   if (message == "+") {
-    if(brightness++ > 255) {
+    if(brightness++ >= 255) {
       brightness = 0;
     }
     Serial.println(brightness);
