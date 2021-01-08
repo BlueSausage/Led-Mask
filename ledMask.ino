@@ -119,6 +119,7 @@ void setMouth(int mouth[][8]) {
   drawImage(mouth);
   didSpeak = true;
   mouthClosedTimer = millis() + timeMouthClosed;
+  delay(10);
 }
 
 void setup() {
@@ -138,8 +139,10 @@ void setup() {
 }
 
 void loop() {
-  /* Ideas:
+  /* ToDo:
    *  - Add sound visualization
+   *  - Add pictures (smiley, etc.)
+   *  - Optimize transition between faces
    */
   if (SerialBT.available()) {
     char incomingChar = SerialBT.read();
